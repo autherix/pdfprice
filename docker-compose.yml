@@ -10,13 +10,14 @@ services:
     # network_mode: "host"
     volumes:
       - ./backend/ppserver/src:/app/ppserver/src
-    command: npm run dev
-  frontend:
-    build: ./frontend
-    ports:
-      - "3001:3000"
-    volumes:
-      # Just the folders that you don't edit inside the container
-      - ./frontend/ppfront/src:/app/ppfront/src:rw
-      - ./frontend/ppfront/public:/app/ppfront/public:rw
-    command: npm run dev
+      - ./backend/ppserver/.env:/app/ppserver/.env
+    # command: npm run dev
+  # frontend:
+  #   build: ./frontend
+  #   ports:
+  #     - "3001:3000"
+  #   volumes:
+  #     # Just the folders that you don't edit inside the container
+  #     - ./frontend/ppfront/src:/app/ppfront/src:rw
+  #     - ./frontend/ppfront/public:/app/ppfront/public:rw
+  #   command: npm run dev

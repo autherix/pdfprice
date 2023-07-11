@@ -12,11 +12,12 @@ COPY ./ppserver/package*.json ./
 RUN npm install
 RUN npm install nodemon -g
 RUN npm install pkg -g
+
+RUN npm pkg set scripts.deploy="npm start ./src/app.js"
+RUN npm pkg set scripts.dev="nodemon ./src/app.js"
+
 RUN npm i express mongoose jsonwebtoken cors js-yaml fs dotenv bcryptjs helmet morgan swagger-ui-express swagger-jsdoc bcrypt --save
-
-RUN npm pkg set scripts.deploy="npm start ./src/index.js"
-RUN npm pkg set scripts.dev="nodemon ./src/index.js"
-
+RUN npm install crypto body-parser --save
 
 EXPOSE 3000
 
