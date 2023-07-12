@@ -4,14 +4,15 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please provide an Email!"],
         unique: [true, "Email Exist"],
-      },
+    },
     
-      password: {
+    password: {
         type: String,
         required: [true, "Please provide a password!"],
         unique: false,
-      },
-  });
-  
+    },
+
+});
+
 module.exports = mongoose.model.Users || mongoose.model("Users", UserSchema);
 

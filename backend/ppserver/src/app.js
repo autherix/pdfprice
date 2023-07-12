@@ -10,19 +10,18 @@ console.log('MONGO_CONNECTION_STRING: ' + MONGO_CONNECTION_STRING);
 
 const app = express();
 
-
 // Connect to MongoDB
 connectDB();
 
 // Middleware
-// app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 
 // Routes
 app.use('/api/auth', authRoutes);
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+    console.log(`Server running on port ${port}`);
 });
