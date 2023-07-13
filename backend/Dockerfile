@@ -18,6 +18,7 @@ RUN npm pkg set scripts.dev="nodemon ./src/app.js"
 
 RUN npm i express mongoose jsonwebtoken cors js-yaml fs dotenv bcryptjs helmet morgan swagger-ui-express swagger-jsdoc bcrypt --save
 RUN npm install crypto body-parser --save
+RUN npm install nodemailer --save
 
 EXPOSE 3000
 

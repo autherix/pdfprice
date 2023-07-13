@@ -1,0 +1,5 @@
+{
+    "apiUrl": "http://65.108.220.54:5001/api",
+    "signupEndpoint": "/auth/signup",
+    "loginEndpoint": "/auth/login"
+}

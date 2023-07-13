@@ -7,6 +7,7 @@ module.exports = {
     jwtSecret: process.env.JWT_SECRET || generateJwtSecret(),
     jwtExpiration: process.env.JWT_EXPIRATION || '7d',
     MONGO_CONNECTION_STRING: process.env.MONGO_CONNECTION_STRING,
+    CORS_ORIGIN_ALLOW: process.env.CORS_ORIGIN_ALLOW
 };
 
 function generateJwtSecret() {
