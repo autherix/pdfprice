@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/RegLogForm.css';
 import * as userService from "../services/userService"
+import * as utils from "../utils";
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");
@@ -9,47 +10,44 @@ const LoginForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (email === "" || password === "") {
+            utils.ShowAlertBox({ alertTypeClass: "alert-danger", message: "Please fill all fields" });
+            return;
+        }
         // Perform login request and handle response
         const user = {
             email: email,
             password: password
         };
         try {
-            const response = await userService.login(user);
-            const alertBox = document.createElement("div");
-            alertBox.classList.add("alert", "alert-success");
+            await userService.login(user);
+            utils.ShowAlertBox({ alertTypeClass: "alert-success", message: `Successfully signed in as ${email}, redirecting to dashboard in a few seconds` });
 
-            // select token from response, parsing it as json
-            const token = response.data.token;
-
-            // add token to user object, remove password from user object and save user object to local storage
-            user.token = token;
-            delete user.password;
-            localStorage.setItem("user", JSON.stringify(user));
-
-            alertBox.innerHTML = `Successfully signed in as ${email}, redirecting to dashboard in a few seconds`;
-            document.body.appendChild(alertBox);
             // clear all input fields
             setEmail(""); setPassword("");
-            setTimeout(() => {
-                alertBox.remove();
-            }, 5000);
+
             // redirect to home page after 7 seconds
             setTimeout(() => {
                 window.location.href = "/";
-            }, 7000);
+            }, 5000);
         }
         catch (ex) {
-            if (ex.response && ex.response.status === 401) {
-                const errorMessage = ex.response.data.message;
-                const alertBox = document.createElement("div");
-                alertBox.classList.add("alert", "alert-danger");
-                alertBox.innerHTML = "Error message from server: " + errorMessage;
-                document.body.appendChild(alertBox);
-                setTimeout(() => {
-                    alertBox.remove();
-                }, 10000);
+            let errorMessage = "Error";
+            if (ex.response) {
+                errorMessage = ex.response.data.message;
+                if (!ex.response.status === 401) {
+                    errorMessage = "There is a problem with the server, please try again later";
+                }
+                errorMessage = "Error message from server: " + errorMessage;
+            } else {
+                errorMessage = "Server is not resolved, please try again later";
             }
+            utils.ShowAlertBox({ alertTypeClass: "alert-danger", message: errorMessage });
+            
+            // clear password input
+            setPassword("");
+            // logout user
+            userService.logout();            
         }
 
     };

@@ -36,6 +36,7 @@ RUN npm install react-transition-group --save
 RUN npm install react-toastify --save
 RUN npm install axios --save
 RUN npm install react-bootstrap-icons --save
+RUN npm install jwt-decode --save
 
 # Setup scripts
 RUN npm pkg set scripts.deploy="npm start"

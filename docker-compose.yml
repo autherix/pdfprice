@@ -3,21 +3,56 @@ version: '3'
 services:
   backend:
     build: ./backend
-    ports:
-      - "5001:3001"
+    # ports:
+    #   - "5001:3001"
     environment:
       CONFIG_DIR: /app/src/config/
-    # network_mode: "host"
+    # network_mode: "host"  # Uncomment this line if needed
+    networks:
+      - mynetwork
     volumes:
       - ./backend/ppserver/src:/app/ppserver/src
       - ./backend/ppserver/.env:/app/ppserver/.env
-    # command: npm run dev
+
   frontend:
     build: ./frontend
-    ports:
-      - "5000:3000"
+    # ports:
+    #   - "5000:3000"
+    networks:
+      - mynetwork
     volumes:
-      # Just the folders that you don't edit inside the container
       - ./frontend/ppfront/src:/app/ppfront/src:rw
       - ./frontend/ppfront/public:/app/ppfront/public:rw
-  #   command: npm run dev
+  
+  mongodb:
+    image: mongo
+    ports:
+      - "27016:27016"
+    environment:
+    MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+    MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    env_file:
+      - ./mongo_creds.env
+    networks:
+      - mynetwork
+    volumes:
+      - ./mongodb:/data/db
+
+  reverse-proxy:
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - mynetwork
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/nginx/certs:ro
+    depends_on:
+      - backend
+      - frontend
+
+networks:
+  mynetwork:
+    driver: bridge
+
