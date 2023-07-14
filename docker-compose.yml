@@ -10,6 +10,7 @@ services:
     # network_mode: "host"  # Uncomment this line if needed
     networks:
       - mynetwork
+      - mongo
     volumes:
       - ./backend/ppserver/src:/app/ppserver/src
       - ./backend/ppserver/.env:/app/ppserver/.env
@@ -24,17 +25,12 @@ services:
       - ./frontend/ppfront/src:/app/ppfront/src:rw
       - ./frontend/ppfront/public:/app/ppfront/public:rw
   
-  mongodb:
+  mongodbsrv:
     image: mongo
-    ports:
-      - "27016:27016"
-    environment:
-    MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
-    MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-    env_file:
-      - ./mongo_creds.env
+    # env_file:
+    #   - ./mongo_creds.env
     networks:
-      - mynetwork
+      - mongo
     volumes:
       - ./mongodb:/data/db
 
@@ -55,4 +51,5 @@ services:
 networks:
   mynetwork:
     driver: bridge
-
+  mongo:
+    driver: bridge

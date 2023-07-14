@@ -1,4 +1,4 @@
 certs/fullchain.pem
 certs/privkey.pem
-mongo_creds.env
 mongodb/*
+/.env
