@@ -1,6 +1,5 @@
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import React, { useState, useEffect } from "react";
-import jwtDecode from "jwt-decode";
 import {
     BrowserRouter as Router,
     Route,
@@ -13,29 +12,24 @@ import LoginForm from "./components/routes/LoginForm";
 import Home from "./components/routes/Home.jsx";
 import About from "./components/routes/About.jsx";
 import NotFound from "./components/routes/NotFound.jsx";
-import NavbarHead from "./components/navbar.jsx";
 import Logout from "./components/routes/Logout";
+import { MyNavbar } from "./components/navbar.jsx";
+import auth from "./components/services/authService";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./components/rootComponents/App.css";
 
-
 function App() {
-
     const [user, setUser] = useState(null);
     useEffect(() => {
-        try {
-            const jwt = localStorage.getItem("user");
-            const user = jwtDecode(jwt);
-            setUser(user);
-            // console.log(user);
-        } catch (ex) {}
+        const user = auth.getCurrentUser();
+        setUser(user);
     }, []);
 
     return (
         <div className="App">
             <Router>
-                <NavbarHead user={user} />
-                <AppContent />
+                <MyNavbar user={user} />
+                <AppContent user={user} />
             </Router>
         </div>
     );
@@ -68,13 +62,13 @@ function AppContent() {
     );
 }
 
-function NavigateToNotFound() {
-    const navigate = useNavigate();
-    useEffect(() => {
-        navigate("/not-found");
-    }, [navigate]);
+// function NavigateToNotFound() {
+//     const navigate = useNavigate();
+//     useEffect(() => {
+//         navigate("/not-found");
+//     }, [navigate]);
 
-    return null;
-}
+//     return null;
+// }
 
 export default App;

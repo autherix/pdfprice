@@ -1,36 +1,7 @@
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const { jwtExpiration } = require("../config/config");
 const validateRequest = require("../utils/validateRequest");
-
-const generateToken = (user) => {
-    // first get the user's jwtSecret
-    var jwtSecret = user.jwtSecret;
-    console.log('jwtSecret for user: "' + user.name + '" is: ', jwtSecret);
-    return jwt.sign({
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        isAdmin: user.isAdmin
-    }, jwtSecret, {
-        expiresIn: jwtExpiration,
-    });
-};
-
-const generateJwtSecret = () => {
-    // generate a random string of 64 characters
-    var jwtSecret = "";
-    var characters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var charactersLength = characters.length;
-    for (var i = 0; i < 64; i++) {
-        jwtSecret += characters.charAt(
-            Math.floor(Math.random() * charactersLength)
-        );
-    }
-    return jwtSecret;
-};
+const { generateJwtSecret, generateToken } = require("../utils/secretUtils");
 
 const registerUser = async (name, email, password) => {
     try {
@@ -43,36 +14,28 @@ const registerUser = async (name, email, password) => {
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Generate a JWT secret
+        // create a jwtSecret for the user
         const jwtSecret = generateJwtSecret();
 
         // Create a new user
         const newUser = new User({
-            name,
-            email,
+            email: email,
             password: hashedPassword,
-            jwtSecret,
+            name: name,
+            jwtSecret: jwtSecret,
+            isAdmin: false,
+            isActive: false,
         });
 
         // Save the user to the database
         await newUser.save();
+        
+        console.log("newUser: ", newUser);
 
-        // Generate a JWT token for the user
+        // Generate a JWT token for the newUser
         const token = await generateToken(newUser);
 
-        // Send the response with the token
-        console.log(
-            "Successfully signed up User \nname: " +
-                name +
-                " \nemail: " +
-                email +
-                " \npassword: " +
-                password +
-                " \njwtSecret: " +
-                jwtSecret +
-                " \ntoken: " +
-                token
-        );
+        console.log("token: ", token);
 
         return { success: true, token };
     } catch (error) {
@@ -86,21 +49,22 @@ const registerUser = async (name, email, password) => {
 
 const loginUser = async (email, password) => {
     try {
+        invalidCredsMsg = "Invalid email or password";
         // Check if the user exists
         const user = await User.findOne({ email });
         if (!user) {
-            return { success: false, message: "Invalid email or password" };
+            return { success: false, message: invalidCredsMsg };
         }
-
+        
         // Check if the password is correct
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return { success: false, message: "Invalid email or password" };
+            return { success: false, message: invalidCredsMsg };
         }
 
-        // Generate a token
+        // Generate a token for user
         const token = await generateToken(user);
-
+        
         return { success: true, token };
     } catch (error) {
         console.error(error);
@@ -164,6 +128,7 @@ const authController = {
 
             // use registerUser function to register the user
             const result = await registerUser(name, email, password);
+
             if (result.success) {
                 return res.status(200).json({ token: result.token });
             } else {
@@ -221,6 +186,7 @@ const authController = {
             // use loginUser function to login the user
             const { email, password } = req.body;
             const result = await loginUser(email, password);
+
             if (result.success) {
                 return res.status(200).json({ token: result.token });
             } else {
@@ -239,4 +205,4 @@ const authController = {
     },
 };
 
-module.exports = authController;
+module.exports = authController

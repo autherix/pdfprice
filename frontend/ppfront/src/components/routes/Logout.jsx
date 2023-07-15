@@ -1,10 +1,9 @@
-import React from 'react';
-import * as utils from "../utils";
+import utils from "../utils";
+import auth from "../services/authService";
 
 const Logout = () => {
 
-    // remove user from local storage
-    localStorage.removeItem('user');
+    auth.logout();
 
     utils.ShowAlertBox({ alertTypeClass: "alert-success", message: `Successfully logged out, redirecting to home page in a few seconds` });
 

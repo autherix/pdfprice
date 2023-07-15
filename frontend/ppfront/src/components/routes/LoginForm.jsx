@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/RegLogForm.css';
-import * as userService from "../services/userService"
-import * as utils from "../utils";
+import auth from "../services/authService"
+import utils from "../utils";
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");
@@ -20,7 +20,7 @@ const LoginForm = () => {
             password: password
         };
         try {
-            await userService.login(user);
+            await auth.login(user);
             utils.ShowAlertBox({ alertTypeClass: "alert-success", message: `Successfully signed in as ${email}, redirecting to dashboard in a few seconds` });
 
             // clear all input fields
@@ -47,7 +47,7 @@ const LoginForm = () => {
             // clear password input
             setPassword("");
             // logout user
-            userService.logout();            
+            auth.logout();            
         }
 
     };

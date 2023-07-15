@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/RegLogForm.css';
-import * as userService from "../services/userService";
-import * as utils from "../utils";
+import auth from "../services/authService";
+import utils from "../utils";
 
 const RegisterForm = () => {
     const [name, setName] = useState("");
@@ -22,7 +22,7 @@ const RegisterForm = () => {
         };
         // Perform registration request and handle response
         try {
-            await userService.register(user);
+            await auth.register(user);
             // use ShowAlertBox function from utils.jsx
             utils.ShowAlertBox({ alertTypeClass: "alert-success", message: `Successfully signed in as ${email}, redirecting to dashboard in a few seconds` });
 
@@ -34,6 +34,7 @@ const RegisterForm = () => {
             }, 5000);
         }
         catch (ex) {
+            let errorMessage = "Error while trying ti signup";
             if (ex.response) {
                 errorMessage = ex.response.data.message;
                 if (!ex.response.status === 401) {

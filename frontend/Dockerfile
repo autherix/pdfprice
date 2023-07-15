@@ -30,7 +30,7 @@ RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
 RUN npm install -g react react-dom react-router-dom react-bootstrap bootstrap axios react-bootstrap-icons react-router-bootstrap --save
 RUN npm install react-router-dom --save
 RUN npm install react-bootstrap --save
-RUN npm install bootstrap --save
+RUN npm install bootstrap@5.3.0 --save
 RUN npm install query-string --save
 RUN npm install react-transition-group --save
 RUN npm install react-toastify --save
