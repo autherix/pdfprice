@@ -37,6 +37,11 @@ RUN npm install react-toastify --save
 RUN npm install axios --save
 RUN npm install react-bootstrap-icons --save
 RUN npm install jwt-decode --save
+RUN npm install dart-sass --save
+RUN npm install sass-loader postcss-loader resolve-url-loader --save-dev
+RUN npm install sass --save
+RUN npm install styled-components
+
 
 # Setup scripts
 RUN npm pkg set scripts.deploy="npm start"

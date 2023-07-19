@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/RegLogForm.css';
+import '../styles/RegLogForm.scss';
 import auth from "../services/authService"
 import utils from "../utils";
+import config from "../config.js";
 
 const LoginForm = () => {
+    
+    utils.NavigateToDashboardIfLoggedIn();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -28,7 +32,7 @@ const LoginForm = () => {
 
             // redirect to home page after 7 seconds
             setTimeout(() => {
-                window.location.href = "/";
+                window.location.href = config.redirectPathAfterLogin;
             }, 5000);
         }
         catch (ex) {

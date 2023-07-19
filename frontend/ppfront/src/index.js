@@ -1,9 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./components/rootComponents/index.css";
 import App from "./App";
-import reportWebVitals from "./components/rootComponents/reportWebVitals";
+import { UserProvider } from "./components/contexts/UserContext";
+import "./components/styles/index.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
+import reportWebVitals from "./components/rootComponents/reportWebVitals";
 
 // add "data-bs-theme" class to body
 document.body.classList.add("data-bs-theme");
@@ -11,7 +12,9 @@ document.body.classList.add("data-bs-theme");
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
-        <App />
+        <UserProvider>
+            <App />
+        </UserProvider>
     </React.StrictMode>
 );
 
