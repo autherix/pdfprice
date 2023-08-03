@@ -24,6 +24,9 @@ import { useLayoutState } from "../../context/LayoutContext";
 
 
 function Layout(props) {
+  const onFileChange = (files) => {
+    console.log(files);
+}
   var classes = useStyles();
 
   // global
@@ -42,7 +45,7 @@ function Layout(props) {
             <div className={classes.fakeToolbar} />
             <Switch>
               <Route path="/app/dashboard" component={Dashboard} />
-              <Route path="/app/fileupload" component={FileUploads} />
+              <Route path="/app/fileupload" component={() => <FileUploads  onFileChange={(files) => onFileChange(files)} />}  />
               <Route path="/app/notifications" component={Notifications} />
             </Switch>
           </div>

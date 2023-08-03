@@ -23,7 +23,7 @@ const FileUploads = props => {
         if (newFile) {
             const updatedList = [...fileList, newFile];
             setFileList(updatedList);
-            // props.onFileChange(updatedList);
+            props.onFileChange(updatedList);
         }
     }
 
@@ -31,7 +31,7 @@ const FileUploads = props => {
         const updatedList = [...fileList];
         updatedList.splice(fileList.indexOf(file), 1);
         setFileList(updatedList);
-        // props.onFileChange(updatedList);
+        props.onFileChange(updatedList);
     }
 
     return (
@@ -53,9 +53,7 @@ const FileUploads = props => {
             {
                 fileList.length > 0 ? (
                     <div className="drop-file-preview">
-                        <p className="drop-file-preview__title">
-                            Ready to upload
-                        </p>
+                    
                         {
                             fileList.map((item, index) => (
                                 <div key={index} className="drop-file-preview__item">
@@ -68,6 +66,7 @@ const FileUploads = props => {
                                 </div>
                             ))
                         }
+                        {<button className='btn btn_file_upload '>آپلود فایل ها</button>}
                     </div>
                 ) : null
             }
@@ -77,7 +76,7 @@ const FileUploads = props => {
 }
 
 FileUploads.propTypes = {
-    // onFileChange: PropTypes.func
+    onFileChange: PropTypes.func
 }
 
 export default FileUploads;
