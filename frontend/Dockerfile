@@ -21,32 +21,34 @@ RUN npm install -g npm@latest
 COPY ./ppfront/package*.json ./
 
 ### Installing dependencies - After initializing ###
-RUN npm install
+# RUN npm install
+RUN yarn install
 RUN npm install nodemon -g
 RUN npm install pkg -g
-RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
+# RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
 
 # Other packages
-RUN npm install -g react react-dom react-router-dom react-bootstrap bootstrap axios react-bootstrap-icons react-router-bootstrap --save
-RUN npm install react-router-dom --save
-RUN npm install react-bootstrap --save
-RUN npm install bootstrap@5.3.0 --save
-RUN npm install query-string --save
-RUN npm install react-transition-group --save
-RUN npm install react-toastify --save
-RUN npm install axios --save
-RUN npm install react-bootstrap-icons --save
-RUN npm install jwt-decode --save
-RUN npm install dart-sass --save
-RUN npm install sass-loader postcss-loader resolve-url-loader --save-dev
-RUN npm install sass --save
-RUN npm install styled-components
+# RUN npm install -g react react-dom react-router-dom react-bootstrap bootstrap axios react-bootstrap-icons react-router-bootstrap --save
+# RUN npm install react-router-dom --save
+# RUN npm install react-bootstrap --save
+# RUN npm install bootstrap@5.3.0 --save
+# RUN npm install query-string --save
+# RUN npm install react-transition-group --save
+# RUN npm install react-toastify --save
+# RUN npm install axios --save
+# RUN npm install react-bootstrap-icons --save
+# RUN npm install jwt-decode --save
+# RUN npm install dart-sass --save
+# RUN npm install sass-loader postcss-loader resolve-url-loader --save-dev
+# RUN npm install sass --save
+# RUN npm install styled-components
 
 
 # Setup scripts
-RUN npm pkg set scripts.deploy="npm start"
-RUN npm pkg set scripts.dev="nodemon"
+# RUN npm pkg set scripts.deploy="npm start"
+# RUN npm pkg set scripts.dev="nodemon"
+CMD ["yarn", "start"]
 
 EXPOSE 3000
 
-CMD ["npm", "run", "dev"]
+# CMD ["npm", "run", "dev"]
