@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-
+import { toast} from 'react-toastify';
 import './styles.css';
 
 import { ImageConfig } from './ImageConfig'; 
@@ -21,8 +21,10 @@ const FileUploads = props => {
 
     const onFileDrop = (e) => {
         const newFile = e.target.files[0];
+        console.log("New file:", newFile);
         if (newFile) {
             const updatedList = [...fileList, newFile];
+            console.log("Updated fileList:", updatedList);
             setFileList(updatedList);
             props.onFileChange(updatedList);
         }
@@ -34,32 +36,37 @@ const FileUploads = props => {
         setFileList(updatedList);
         props.onFileChange(updatedList);
     }
-    const submitForm = (e) => {
+    const submitForm = async (e) => {
         e.preventDefault();
+    
         const formData = new FormData();
-        formData.append("name", fileList.name);
-        formData.append("file", fileList);
-
-        // * next method 
-        // axios({
-        //     method: "post",
-        //     url: "https://backend.myhttpaddress.com/api/user/upload",
-        //     data: formData,
-        //     headers: { "Content-Type": "multipart/form-data" },
-        //     res:alert("File Upload success"),
-        //     err:alert("File Upload Error"),
-        //   });
-
-
-        axios
-          .post("https://backend.myhttpaddress.com/api/user/upload", formData)
-          .then((res) => {
-            alert("File Upload success");
-          })
-          .catch((err) => alert("File Upload Error"));
-
-          
-      };
+    
+        for (let i = 0; i < fileList.length; i++) {
+            formData.append('files', fileList[i]);
+        }
+        if (formData.has('files')) {
+            try {
+                const response = await fetch('https://backend.myhttpaddress.com/api/user/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+        
+                if (response.ok) {
+                    toast.success('فایل با موفقیت اپلود شد');
+                    const responseData = await response.json();
+                    console.log(responseData);
+                } else {
+                    toast.error('آپلود فایل در چار مشکل شد');
+                }
+            } catch (error) {
+                console.error('An error occurred while uploading the file:', error);
+                toast.error('آپلود فایل در چار مشکل شد');
+            }
+        } else {
+           console.log('Error uploading the file');
+        }
+        
+    };
     return (
         <>
          <form>
@@ -75,7 +82,7 @@ const FileUploads = props => {
                     <img src={uploadImg} alt="" />
                     <p>بکشید و رها کنید</p>
                 </div>
-                <input type="file" value="" onChange={onFileDrop}/>
+                <input type="file" value="" onInput={onFileDrop}/>
             </div>
             {
                 fileList.length > 0 ? (
