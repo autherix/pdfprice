@@ -161,3 +161,113 @@
 .btn_file_upload:focus {
   box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .2) 0 6px 15px 0, rgba(0, 0, 0, .1) 0 2px 2px 0, rgba(50, 151, 211, .3) 0 0 0 4px;
 }
+
+.py-3 {
+  padding-bottom: 1rem!important;
+  padding-top: 1rem!important;
+}
+@media (min-width: 992px){
+  .col-lg-12 {
+    flex: 0 0 auto;
+    width: 100%;
+}
+}
+@media (min-width: 768px){
+  .d-md-flex {
+    display: flex!important;
+}
+
+}
+.pb-2 {
+  padding-bottom: .5rem!important;
+}
+.justify-content-between {
+  justify-content: space-between!important;
+}
+
+.px-0 {
+  padding-left: 0!important;
+  padding-right: 0!important;
+}
+.col {
+  flex: 1 0;
+}
+
+.align-items-center {
+  align-items: center!important;
+}
+.flex-wrap {
+  flex-wrap: wrap!important;
+}
+.d-flex {
+  display: flex!important;
+}
+.mt-3 {
+  margin-top: 1rem!important;
+}
+.align-items-end {
+  align-items: flex-end!important;
+}
+.muirtl-1ya7z0e {
+  display: inline-flex;
+  border-radius: 4px;
+}
+.gap-1 {
+  gap: .25rem!important;
+}
+.border-black {
+  border: 1px solid #000;
+}
+.muirtl-q5cu77 {
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  text-decoration: none;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 11px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.54);
+  padding: 5px!important;
+}
+.rounded {
+  border-radius: .25rem!important;
+}
+.text-dark {
+  color: rgba(0,0,0,1)!important;
+}
+.text-nowrap {
+  white-space: nowrap!important;
+}
+.muirtl-w0pj6f {
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  inset: 0px;
+  border-radius: inherit;
+}
+.ns-button.secondary {
+  background-color: #000!important;
+  border: 1px solid #000!important;
+  color: #fff!important;
+  text-transform: capitalize!important;
+  width: 100%;
+}
