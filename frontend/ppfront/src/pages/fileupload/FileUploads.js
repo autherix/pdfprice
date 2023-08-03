@@ -23,7 +23,7 @@ const FileUploads = props => {
         if (newFile) {
             const updatedList = [...fileList, newFile];
             setFileList(updatedList);
-            props.onFileChange(updatedList);
+            // props.onFileChange(updatedList);
         }
     }
 
@@ -31,7 +31,7 @@ const FileUploads = props => {
         const updatedList = [...fileList];
         updatedList.splice(fileList.indexOf(file), 1);
         setFileList(updatedList);
-        props.onFileChange(updatedList);
+        // props.onFileChange(updatedList);
     }
 
     return (
@@ -77,7 +77,7 @@ const FileUploads = props => {
 }
 
 FileUploads.propTypes = {
-    onFileChange: PropTypes.func
+    // onFileChange: PropTypes.func
 }
 
 export default FileUploads;

@@ -1,10 +1,10 @@
 const express = require('express');
-const authMiddleware = require('../middleware/authMiddleware');
 const userController = require('../controllers/userController');
+const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
 // GET /api/users/profile
-router.get('/profile', authMiddleware, userController.getUserProfile);
+router.get('/dashboard', userController.dashboard);
 
 module.exports = router;

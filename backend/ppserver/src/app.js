@@ -1,6 +1,7 @@
 const express = require('express');
 const connectDB = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
@@ -26,6 +27,7 @@ app.use(cors({
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
 
 // Start the server
 app.listen(port, () => {
