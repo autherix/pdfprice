@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 import './styles.css';
 
@@ -33,9 +34,35 @@ const FileUploads = props => {
         setFileList(updatedList);
         props.onFileChange(updatedList);
     }
+    const submitForm = (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append("name", fileList.name);
+        formData.append("file", fileList);
 
+        // * next method 
+        // axios({
+        //     method: "post",
+        //     url: "https://backend.myhttpaddress.com/api/user/upload",
+        //     data: formData,
+        //     headers: { "Content-Type": "multipart/form-data" },
+        //     res:alert("File Upload success"),
+        //     err:alert("File Upload Error"),
+        //   });
+
+
+        axios
+          .post("https://backend.myhttpaddress.com/api/user/upload", formData)
+          .then((res) => {
+            alert("File Upload success");
+          })
+          .catch((err) => alert("File Upload Error"));
+
+          
+      };
     return (
         <>
+         <form>
         <div className="body_content_FileUpload">
             <div
                 ref={wrapperRef}
@@ -66,11 +93,12 @@ const FileUploads = props => {
                                 </div>
                             ))
                         }
-                        {<button className='btn btn_file_upload '>آپلود فایل ها</button>}
+                        <button onClick={submitForm} className='btn btn_file_upload '>آپلود فایل ها</button>
                     </div>
                 ) : null
             }
             </div>
+            </form>
         </>
     );
 }
