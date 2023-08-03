@@ -20,6 +20,9 @@ RUN npm i express mongoose jsonwebtoken cors js-yaml fs dotenv bcryptjs helmet m
 RUN npm install crypto body-parser --save
 RUN npm install nodemailer --save
 RUN npm install multer --save
+RUN npm install pdfjs-dist --save
+RUN npm install pdf-lib --save
+RUN npm install pdf-parse --save
 
 EXPOSE 3000
 

@@ -2,7 +2,7 @@ const express = require('express');
 const userController = require('../controllers/userController');
 const authMiddleware = require('../middleware/authMiddleware');
 const multer = require("multer");
-const upload = multer({ limits: { fileSize: 50000000 } });
+const upload = multer({ dest: "/tmp/uploads/", limits: { fileSize: 50000000 } });
 
 const router = express.Router();
 

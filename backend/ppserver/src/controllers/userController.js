@@ -1,5 +1,19 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
+const { PDFDocument } = require("pdf-lib");
+
+const countPdfPages = async (filePath) => {
+    try {
+        const pdfBuffer = fs.readFileSync(filePath);
+        const pdfDoc = await PDFDocument.load(pdfBuffer);
+        const pageCount = pdfDoc.getPageCount();
+        return pageCount;
+    } catch (error) {
+        console.error("Error reading PDF file:", error.message);
+        return -1;
+    }
+};
 
 const userController = {
     upload: async (req, res) => {
@@ -8,31 +22,54 @@ const userController = {
             // if uploadedFiles is null or undefined or not an array, return 400
             if (
                 !uploadedFiles ||
-                !Array.isArray(uploadedFiles) ||
+                // !Array.isArray(uploadedFiles) ||
                 uploadedFiles.length === 0
             ) {
-                return res.status(400).json({ message: "No files were uploaded" });
+                return res
+                    .status(400)
+                    .json({ message: "No files were uploaded" });
             }
             // for each item in uploadedFiles, remove all properties except originalname, mimetype, size
-            uploadedFiles.forEach((item) => {
+            for (const item of uploadedFiles) {
                 // if memetype is not application/pdf or name does not end with .pdf, return 400
-                if (item.mimetype !== "application/pdf" || !item.originalname.endsWith(".pdf" || ".PDF")) {
-                    return res.status(400).json({ message: "Only pdf files are allowed" });
+                if (
+                    item.mimetype !== "application/pdf" ||
+                    !item.originalname.endsWith(".pdf" || ".PDF")
+                ) {
+                    return res
+                        .status(400)
+                        .json({ message: "Only pdf files are allowed" });
                 }
                 Object.keys(item).forEach((key) => {
                     if (
-                        key !== "originalname" && key !== "size"
+                        key !== "originalname" &&
+                        key !== "size" &&
+                        key !== "filename" &&
+                        key !== "path"
                     ) {
                         delete item[key];
                     }
                 });
-            });
-            if (!uploadedFiles) {
-                return res.status(400).json({ message: "No files were uploaded" });
-            } else {
-                console.log("uploadedFiles: ", uploadedFiles);
-                res.status(200).json({ message: "Upload successful", uploadedFiles });
+                // check if the file saved to its path
+                if (!fs.existsSync(item.path)) {
+                    return res.status(500).json({
+                        message: "Error while saving the file",
+                    });
+                } else {
+                    console.log("File saved to: ", item.path);
+                }
+                // calculate the pages count for each pdf file
+                item.total_pages = await countPdfPages(item.path);
+                console.log("item.total_pages: ", item.total_pages);
+                fee = 30000;
+                // calculate the total price for each pdf file
+                item.total_price = item.total_pages * fee;
             }
+            console.log("uploadedFiles: ", uploadedFiles);
+            res.status(200).json({
+                message: "Upload successful",
+                uploadedFiles,
+            });
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: "Server Error" });

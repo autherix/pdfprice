@@ -37,7 +37,7 @@ const FileUploads = props => {
     const submitForm = (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append("name", fileList.name);
+        formData.append("name", "files");
         formData.append("file", fileList);
 
         // * next method 
