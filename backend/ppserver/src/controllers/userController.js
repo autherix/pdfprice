@@ -3,16 +3,35 @@ const jwt = require("jsonwebtoken");
 
 const userController = {
     upload: async (req, res) => {
-        // console.log(req);
         try {
-            // Check if the request content type is not multipart/form-data
-            if (!req.is("multipart/form-data")) {
-                return res.status(400).json({ message: "Bad request" });
+            const uploadedFiles = req.files;
+            // if uploadedFiles is null or undefined or not an array, return 400
+            if (
+                !uploadedFiles ||
+                !Array.isArray(uploadedFiles) ||
+                uploadedFiles.length === 0
+            ) {
+                return res.status(400).json({ message: "No files were uploaded" });
+            }
+            // for each item in uploadedFiles, remove all properties except originalname, mimetype, size
+            uploadedFiles.forEach((item) => {
+                // if memetype is not application/pdf or name does not end with .pdf, return 400
+                if (item.mimetype !== "application/pdf" || !item.originalname.endsWith(".pdf" || ".PDF")) {
+                    return res.status(400).json({ message: "Only pdf files are allowed" });
+                }
+                Object.keys(item).forEach((key) => {
+                    if (
+                        key !== "originalname" && key !== "size"
+                    ) {
+                        delete item[key];
+                    }
+                });
+            });
+            if (!uploadedFiles) {
+                return res.status(400).json({ message: "No files were uploaded" });
             } else {
-                // Print all files and key-value pairs
-                console.log(req.files);
-                console.log(req.body);
-                return res.status(200).json({ message: "OK", files: req.files });
+                console.log("uploadedFiles: ", uploadedFiles);
+                res.status(200).json({ message: "Upload successful", uploadedFiles });
             }
         } catch (error) {
             console.error(error);

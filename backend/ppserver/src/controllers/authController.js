@@ -150,6 +150,7 @@ const authController = {
                 allowedContentTypes: [
                     "application/json",
                     "application/x-www-form-urlencoded",
+                    "multipart/form-data",
                 ],
                 fields: {
                     email: {

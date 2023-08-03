@@ -17,8 +17,12 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false, limit: "500mb" }));
 app.use(bodyParser.json());
+// for application content type
+app.use(bodyParser.raw({ type: "application/*", limit: "500mb" }));
+// for multipart/form-data
+// app.use(bodyParser.raw({ type: "multipart/form-data", limit: "500mb" }));
 app.use(
     cors({
         origin: CORS_ORIGIN_ALLOW,

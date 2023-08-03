@@ -86,11 +86,16 @@ function validateRequest(request, allowedMethods, parameterInfo, headerInfo, bod
   
       // Check allowed content types
       if (bodyInfo.allowedContentTypes && !bodyInfo.allowedContentTypes.includes(request.headers['content-type'])) {
+        // if there is multipart/form-data in the allowed list, and the content type starts with multipart/form-data, then it is allowed
+        if (bodyInfo.allowedContentTypes.includes("multipart/form-data") && request.headers['content-type'].startsWith("multipart/form-data")) {
+            // do nothing
+        } else {
         const message = 'Invalid content type in request body';
         console.error(message);
         console.error(`Expected: ${bodyInfo.allowedContentTypes.join(', ')}, got ${request.headers['content-type']}`);
         return { valid: false, message };
       }
+    }
   
       // Validate fields in the body
       for (const [fieldName, fieldDetails] of Object.entries(bodyInfo.fields)) {
