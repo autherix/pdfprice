@@ -42,7 +42,7 @@ RUN npm install pkg -g
 # RUN npm install sass-loader postcss-loader resolve-url-loader --save-dev
 # RUN npm install sass --save
 # RUN npm install styled-components
-
+RUN yarn add react-toastify
 
 # Setup scripts
 # RUN npm pkg set scripts.deploy="npm start"
