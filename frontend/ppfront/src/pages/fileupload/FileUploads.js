@@ -287,7 +287,7 @@ const FileUploads = (props) => {
                         </div>
                         <div class="mt-3 background-element-color p-3 rounded col-md-8 col-12">
                           <span>
-                            هزینه آماده سازی: <b>6 تومن</b>
+                            هزینه آماده سازی: <b>45000 تومن</b>
                           </span>
                           
                         </div>

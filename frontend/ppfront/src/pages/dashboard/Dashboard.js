@@ -399,7 +399,7 @@ export default function Dashboard(props) {
         ))}
         <Grid item xs={12}>
           <Widget
-            title="لیست محصولات آموزشی"
+            title="لیست سفارشات"
             upperTitle
             noBodyPadding
             bodyClass={classes.tableWidget}
